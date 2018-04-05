@@ -48,7 +48,9 @@ public class Main {
     void fill(){
       String temp = JOptionPane.showInputDialog("How many states are there?");
       int numStates = Integer.valueOf(temp);
+      temp = JOptionPane.showInputDialog("whats the alphabet?");
       char[] alfabet = temp.toCharArray();
+
     }
   }
 
