@@ -17,16 +17,19 @@ public class Main {
       this.alfa = a;
       this.fi = f;
     }
+
     State nextState(char a) {
       return this.trans.get(a);
     }
+
     boolean isFinal() {
       return this.fi;
     }
+
     void print() {
       System.out.println("State " + id + ": ");
 
-      for (int i = 0; i<trans.size(); i++) {
+      for (int i = 0; i < trans.size(); i++) {
         System.out.println("With " + alfa[i] + " -> " + trans.get(alfa[i]).id);
       }
 
@@ -58,6 +61,23 @@ public class Main {
         System.out.println("This is a distinguishable pair");
       else
         System.out.println("This is not a distinguishable pair");
+    }
+    boolean mark(Pair[] list){
+      State temp1, temp2;
+      for (int i = 0; i<st1.alfa.length; i++) {
+        temp1 = st1.nextState(st1.alfa[i]);
+        temp2 = st2.nextState(st2.alfa[i]);
+        for (int j = 0; j<list.length; j++) {
+          if (((list[j].st1.id == temp1.id && list[j].st2.id == temp2.id) ||
+              (list[j].st1.id == temp2.id && list[j].st2.id == temp1.id)) && !this.dist) {
+            if (list[j].dist) {
+              this.dist = true;
+              return true;
+            }
+          }
+        }
+      }
+      return false;
     }
   }
 
@@ -111,6 +131,7 @@ public class Main {
         }
       }
     }
+
     void print() {
       System.out.println("Number of states: " + states.length);
       for (int i = 0; i < states.length; i++) {
@@ -121,6 +142,22 @@ public class Main {
       for (int i = 0; i < pairs.length; i++) {
         pairs[i].print();
       }
+    }
+
+    AFD minimize(){
+      AFD result = this;
+      boolean done = false;
+
+      do {
+        for (int i =1 ; i<pairs.length; i++) {
+          done = false;
+          if(result.pairs[i].mark(result.pairs)){
+            done = true;
+          }
+        }
+      } while (!done);
+
+      return result;
     }
   }
 
