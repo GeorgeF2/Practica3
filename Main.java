@@ -49,7 +49,6 @@ public class Main {
       String temp = JOptionPane.showInputDialog("How many states are there?");
       int numStates = Integer.valueOf(temp);
       states = new State[numStates];
-
       temp = JOptionPane.showInputDialog("whats the alphabet?");
       char[] alfabet = temp.toCharArray();
       temp = JOptionPane.showInputDialog("what are the final states?");
@@ -70,6 +69,9 @@ public class Main {
         }
         states[i] = new State(i, alfabet, tr, check);
       }
+
+      int temporal = ((numStates-1)*((numStates-1)+1))/2;
+      pairs = new Pair[temporal];
     }
   }
 
