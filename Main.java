@@ -54,6 +54,7 @@ public class Main {
       else
         this.dist = false;
     }
+
     void print() {
       System.out.println("Pair " + id + ":");
       System.out.println("Includes states " + st1.id + " and " + st2.id);
@@ -62,14 +63,15 @@ public class Main {
       else
         System.out.println("This is not a distinguishable pair");
     }
-    boolean mark(Pair[] list){
+
+    boolean mark(Pair[] list) {
       State temp1, temp2;
-      for (int i = 0; i<st1.alfa.length; i++) {
+      for (int i = 0; i < st1.alfa.length; i++) {
         temp1 = st1.nextState(st1.alfa[i]);
         temp2 = st2.nextState(st2.alfa[i]);
-        for (int j = 0; j<list.length; j++) {
-          if (((list[j].st1.id == temp1.id && list[j].st2.id == temp2.id) ||
-              (list[j].st1.id == temp2.id && list[j].st2.id == temp1.id)) && !this.dist) {
+        for (int j = 0; j < list.length; j++) {
+          if (((list[j].st1.id == temp1.id && list[j].st2.id == temp2.id)
+              || (list[j].st1.id == temp2.id && list[j].st2.id == temp1.id)) && !this.dist) {
             if (list[j].dist) {
               this.dist = true;
               return true;
@@ -78,6 +80,19 @@ public class Main {
         }
       }
       return false;
+    }
+
+    Pair nextPair(char a, Pair[] list) {
+      State temp1, temp2;
+      temp1 = st1.nextState(a);
+      temp2 = st2.nextState(a);
+      for (int j = 0; j < list.length; j++) {
+        if ((list[j].st1.id == temp1.id && list[j].st2.id == temp2.id)
+            || (list[j].st1.id == temp2.id && list[j].st2.id == temp1.id)) {
+          return list[j];
+        }
+      }
+      return null;
     }
   }
 
@@ -144,14 +159,14 @@ public class Main {
       }
     }
 
-    AFD minimize(){
+    AFD minimize() {
       AFD result = this;
       boolean done = false;
 
       do {
-        for (int i =1 ; i<pairs.length; i++) {
+        for (int i = 1; i < pairs.length; i++) {
           done = false;
-          if(result.pairs[i].mark(result.pairs)){
+          if (result.pairs[i].mark(result.pairs)) {
             done = true;
           }
         }
