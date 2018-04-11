@@ -6,16 +6,18 @@ public class Main {
 
   public static class State {
     int id;
-    Map<Character, Integer> trans = new HashMap<Character, Integer>();
+    Map<Character, State> trans = new HashMap<Character, State>();
+    char[] alfa;
     boolean fi;
 
-    State(int id, char[] a, int[] t, boolean f) {
+    State(int id, char[] a, State[] t, boolean f) {
       this.id = id;
       for (int i = 0; i < a.length; i++)
         this.trans.put(a[i], t[i]);
+      this.alfa = a;
       this.fi = f;
     }
-    int nextState(char a) {
+    State nextState(char a) {
       return this.trans.get(a);
     }
     boolean isFinal() {
@@ -23,7 +25,11 @@ public class Main {
     }
     void print() {
       System.out.println("State " + id + ": ");
-      System.out.println(trans);
+
+      for (int i = 0; i<trans.size(); i++) {
+        System.out.println("With " + alfa[i] + " -> " + trans.get(alfa[i]).id);
+      }
+
       if (fi)
         System.out.println("This state is final");
       else
@@ -68,13 +74,24 @@ public class Main {
       temp = JOptionPane.showInputDialog("what are the final states?");
       char[] finalstates = temp.toCharArray();
 
+      State[] tr = new State[alfabet.length];
+      for (int j = 0; j < temp.length(); j++) {
+        tr[j] = new State(j, alfabet, tr, false);
+      }
+      for (int j = 0; j < temp.length(); j++) {
+        tr[j] = new State(j, alfabet, tr, false);
+      }
+      for (int j = 0; j < numStates; j++) {
+        states[j] = new State(j, alfabet, tr, false);
+      }
+
       for (int i = 0; i < numStates; i++) {
         temp = JOptionPane.showInputDialog("For state " + i + " transitions");
         char[] transitions = temp.toCharArray();
-        int[] tr = new int[temp.length()];
         for (int j = 0; j < temp.length(); j++) {
-          tr[j] = Character.getNumericValue(transitions[j]);
+          tr[j] = states[Character.getNumericValue(transitions[j])];
         }
+
         boolean check = false;
         for (int j = 0; j < finalstates.length; j++) {
           if (Character.getNumericValue(finalstates[j]) == i) {
