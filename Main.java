@@ -172,6 +172,12 @@ public class Main {
       } while (!done);
 
       //TODO : add merging non dist pairs together and leave dist states alone.
+      int count = 0;
+      for (int i = 0; i<pairs.length; i++) {
+        if (!pairs[i].dist) {
+          
+        }
+      }
 
       return result;
     }
