@@ -81,13 +81,14 @@ public class Main {
       }
       return false;
     }
-    Pair nextPair(char a, Pair[] list){
+
+    Pair nextPair(char a, Pair[] list) {
       State temp1, temp2;
       temp1 = st1.nextState(a);
       temp2 = st2.nextState(a);
-      for (int j = 0; j<list.length; j++) {
-        if ((list[j].st1.id == temp1.id && list[j].st2.id == temp2.id) ||
-            (list[j].st1.id == temp2.id && list[j].st2.id == temp1.id)){
+      for (int j = 0; j < list.length; j++) {
+        if ((list[j].st1.id == temp1.id && list[j].st2.id == temp2.id)
+            || (list[j].st1.id == temp2.id && list[j].st2.id == temp1.id)) {
           return list[j];
         }
       }
@@ -109,10 +110,10 @@ public class Main {
       char[] finalstates = temp.toCharArray();
 
       State[] tr = new State[alfabet.length];
-      for (int j = 0; j < temp.length(); j++) {
+      for (int j = 0; j < alfabet.length; j++) {
         tr[j] = new State(j, alfabet, tr, false);
       }
-      for (int j = 0; j < temp.length(); j++) {
+      for (int j = 0; j < alfabet.length; j++) {
         tr[j] = new State(j, alfabet, tr, false);
       }
       for (int j = 0; j < numStates; j++) {
@@ -163,21 +164,30 @@ public class Main {
       boolean done = false;
 
       do {
+        done = true;
         for (int i = 1; i < pairs.length; i++) {
-          done = false;
           if (result.pairs[i].mark(result.pairs)) {
-            done = true;
+            done = false;
           }
         }
       } while (!done);
 
       //TODO : add merging non dist pairs together and leave dist states alone.
-      int count = 0;
-      for (int i = 0; i<pairs.length; i++) {
-        if (!pairs[i].dist) {
-          
+      int[] count = new int[result.pairs.length];
+      Pair[] indistPairs;
+      int j = 0;
+      for (int i = 0; i < result.pairs.length; i++) {
+        if (!result.pairs[i].dist) {
+          count[j] = i;
+          j++;
         }
       }
+      indistPairs = new Pair[j];
+      for (int i =0; i<j ; i++) {
+        indistPairs[i] = result.pairs[count[i]];
+      }
+
+
 
       return result;
     }
@@ -187,5 +197,7 @@ public class Main {
     AFD sta = new AFD();
     sta.fill();
     sta.print();
+    AFD result = sta.minimize();
+    result.print();
   }
 }
