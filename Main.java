@@ -15,21 +15,29 @@ public class Main {
         this.trans.put(a[i], t[i]);
       this.fi = f;
     }
-
     int nextState(char a) {
       return this.trans.get(a);
     }
-
     boolean isFinal() {
       return this.fi;
+    }
+    void print() {
+      System.out.println("State " + id + ": ");
+      System.out.println(trans);
+      if (fi)
+        System.out.println("This state is final");
+      else
+        System.out.println("This state is not final");
     }
   }
 
   public static class Pair {
+    int id;
     State st1, st2;
     boolean dist;
 
-    Pair(State a, State b) {
+    Pair(int i, State a, State b) {
+      this.id = i;
       this.st1 = a;
       this.st2 = b;
       if ((this.st1.isFinal() && !this.st2.isFinal()) || (!this.st1.isFinal() && this.st2.isFinal()))
@@ -37,7 +45,14 @@ public class Main {
       else
         this.dist = false;
     }
-
+    void print() {
+      System.out.println("Pair " + id + ":");
+      System.out.println("Includes states " + st1.id + " and " + st2.id);
+      if (dist)
+        System.out.println("This is a distinguishable pair");
+      else
+        System.out.println("This is not a distinguishable pair");
+    }
   }
 
   public static class AFD {
@@ -72,17 +87,29 @@ public class Main {
       int numOfPairs = ((numStates - 1) * ((numStates - 1) + 1)) / 2;
       pairs = new Pair[numOfPairs];
       int i = 0;
-        for (int j = 0; j < numStates - 1; j++) {
-          for (int k = j + 1; k < numStates; k++) {
-            pairs[i] = new Pair(states[j], states[k]);
-            i++;
-          }
+      for (int j = 0; j < numStates - 1; j++) {
+        for (int k = j + 1; k < numStates; k++) {
+          pairs[i] = new Pair(i, states[j], states[k]);
+          i++;
         }
+      }
+    }
+    void print() {
+      System.out.println("Number of states: " + states.length);
+      for (int i = 0; i < states.length; i++) {
+        states[i].print();
+      }
+      System.out.println();
+      System.out.println("Number of pairs: " + pairs.length);
+      for (int i = 0; i < pairs.length; i++) {
+        pairs[i].print();
+      }
     }
   }
 
   public static void main(String[] args) {
     AFD sta = new AFD();
     sta.fill();
+    sta.print();
   }
 }
