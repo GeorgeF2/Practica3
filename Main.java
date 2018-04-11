@@ -81,14 +81,13 @@ public class Main {
       }
       return false;
     }
-
-    Pair nextPair(char a, Pair[] list) {
+    Pair nextPair(char a, Pair[] list){
       State temp1, temp2;
       temp1 = st1.nextState(a);
       temp2 = st2.nextState(a);
-      for (int j = 0; j < list.length; j++) {
-        if ((list[j].st1.id == temp1.id && list[j].st2.id == temp2.id)
-            || (list[j].st1.id == temp2.id && list[j].st2.id == temp1.id)) {
+      for (int j = 0; j<list.length; j++) {
+        if ((list[j].st1.id == temp1.id && list[j].st2.id == temp2.id) ||
+            (list[j].st1.id == temp2.id && list[j].st2.id == temp1.id)){
           return list[j];
         }
       }
