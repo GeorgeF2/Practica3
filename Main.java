@@ -97,22 +97,23 @@ public class Main {
     }
 
     void printPairs(Pair[] list) {
+      String textWTF = "";
       for (int i = 0; i < list.length; i++) {
         if (!list[i].dist) {
-          System.out.println("State: {" + list[i].st1.id + ", " + list[i].st2.id + "}");
+          textWTF += "State: {" + list[i].st1.id + ", " + list[i].st2.id + "}\n";
           for (int j = 0; j < list[i].st1.alfa.length; j++) {
-            System.out
-                .println("With " + list[i].st1.alfa[j] + " -> {" + list[i].nextPair(list[i].st1.alfa[j], list).st1.id
-                    + ", " + list[i].nextPair(list[i].st2.alfa[j], list).st2.id + "}");
+            textWTF += "With " + list[i].st1.alfa[j] + " -> {" + list[i].nextPair(list[i].st1.alfa[j], list).st1.id
+                + ", " + list[i].nextPair(list[i].st2.alfa[j], list).st2.id + "}\n";
           }
           if (list[i].st1.isFinal()) {
-            System.out.println("This is a final state");
+            textWTF += "This is a final state\n";
           } else {
-            System.out.println("This is not a final state");
+            textWTF += "This is not a final state\n";
           }
-          System.out.println();
+          textWTF += "\n";
         }
       }
+      JOptionPane.showMessageDialog(null, textWTF);
     }
   }
 
