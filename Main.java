@@ -2,7 +2,6 @@ import java.util.*;
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 
-
 public class Main {
 
   public static class State {
@@ -41,35 +40,44 @@ public class Main {
 
   }
 
-  public static class AFD{
+  public static class AFD {
     State[] states;
     Pair[] pairs;
 
-    void fill(){
+    void fill() {
       String temp = JOptionPane.showInputDialog("How many states are there?");
       int numStates = Integer.valueOf(temp);
       states = new State[numStates];
-
       temp = JOptionPane.showInputDialog("whats the alphabet?");
       char[] alfabet = temp.toCharArray();
       temp = JOptionPane.showInputDialog("what are the final states?");
       char[] finalstates = temp.toCharArray();
 
-      for (int i = 0; i<numStates; i++) {
+      for (int i = 0; i < numStates; i++) {
         temp = JOptionPane.showInputDialog("For state " + i + " transitions");
         char[] transitions = temp.toCharArray();
         int[] tr = new int[temp.length()];
-        for (int j = 0; j<temp.length(); j++) {
+        for (int j = 0; j < temp.length(); j++) {
           tr[j] = Character.getNumericValue(transitions[j]);
         }
         boolean check = false;
-        for (int j = 0; j<finalstates.length; j++) {
-          if (Character.getNumericValue(finalstates[j]) == i){
+        for (int j = 0; j < finalstates.length; j++) {
+          if (Character.getNumericValue(finalstates[j]) == i) {
             check = true;
           }
         }
         states[i] = new State(i, alfabet, tr, check);
       }
+
+      int numOfPairs = ((numStates - 1) * ((numStates - 1) + 1)) / 2;
+      pairs = new Pair[numOfPairs];
+      int i = 0;
+        for (int j = 0; j < numStates - 1; j++) {
+          for (int k = j + 1; k < numStates; k++) {
+            pairs[i] = new Pair(states[j], states[k]);
+            i++;
+          }
+        }
     }
   }
 
