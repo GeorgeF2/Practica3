@@ -7,15 +7,13 @@ public class Main {
 
   public static class State {
     int id;
-    Map<Character, Integer> trans;
+    Map<Character, Integer> trans = new HashMap<Character, Integer>();
     boolean fi;
 
     State(int id, char[] a, int[] t, boolean f) {
       this.id = id;
-      for (int i = 0; i < a.length; i++){
-        System.out.println("for state " + id + " character " + a[i] + " goes to " + t[i]);
+      for (int i = 0; i < a.length; i++)
         this.trans.put(a[i], t[i]);
-      }
       this.fi = f;
     }
 
@@ -50,6 +48,8 @@ public class Main {
     void fill(){
       String temp = JOptionPane.showInputDialog("How many states are there?");
       int numStates = Integer.valueOf(temp);
+      states = new State[numStates];
+
       temp = JOptionPane.showInputDialog("whats the alphabet?");
       char[] alfabet = temp.toCharArray();
       temp = JOptionPane.showInputDialog("what are the final states?");
@@ -58,15 +58,13 @@ public class Main {
       for (int i = 0; i<numStates; i++) {
         temp = JOptionPane.showInputDialog("For state " + i + " transitions");
         char[] transitions = temp.toCharArray();
-        System.out.println("chararray = " + transitions[0] + ", "+ transitions[1]);
         int[] tr = new int[temp.length()];
         for (int j = 0; j<temp.length(); j++) {
-          tr[j] = Integer.valueOf(transitions[j]);
+          tr[j] = Character.getNumericValue(transitions[j]);
         }
-        System.out.println("intarray = " + tr[0] + ", "+ tr[1]);
         boolean check = false;
         for (int j = 0; j<finalstates.length; j++) {
-          if (Integer.valueOf(finalstates[j]) == i){
+          if (Character.getNumericValue(finalstates[j]) == i){
             check = true;
           }
         }
