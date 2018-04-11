@@ -110,6 +110,12 @@ public class Main {
         pairs[i].print();
       }
     }
+
+    AFD minimizeAFD(){
+      AFD minimized = this;
+
+      return minimized;
+    }
   }
 
   public static void main(String[] args) {
