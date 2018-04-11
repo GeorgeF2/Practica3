@@ -92,7 +92,27 @@ public class Main {
           return list[j];
         }
       }
-      return null;
+      Pair temp = new Pair(temp1.id, temp1, temp2);
+      return temp;
+    }
+
+    void printPairs(Pair[] list) {
+      for (int i = 0; i < list.length; i++) {
+        if (!list[i].dist) {
+          System.out.println("State: {" + list[i].st1.id + ", " + list[i].st2.id + "}");
+          for (int j = 0; j < list[i].st1.alfa.length; j++) {
+            System.out
+                .println("With " + list[i].st1.alfa[j] + " -> {" + list[i].nextPair(list[i].st1.alfa[j], list).st1.id
+                    + ", " + list[i].nextPair(list[i].st2.alfa[j], list).st2.id + "}");
+          }
+          if (list[i].st1.isFinal()) {
+            System.out.println("This is a final state");
+          } else {
+            System.out.println("This is not a final state");
+          }
+          System.out.println();
+        }
+      }
     }
   }
 
@@ -159,7 +179,7 @@ public class Main {
       }
     }
 
-    AFD minimize() {
+    void minimize() {
       AFD result = this;
       boolean done = false;
 
@@ -172,7 +192,6 @@ public class Main {
         }
       } while (!done);
 
-      //TODO : add merging non dist pairs together and leave dist states alone.
       int[] count = new int[result.pairs.length];
       Pair[] indistPairs;
       int j = 0;
@@ -183,21 +202,17 @@ public class Main {
         }
       }
       indistPairs = new Pair[j];
-      for (int i =0; i<j ; i++) {
+      for (int i = 0; i < j; i++) {
         indistPairs[i] = result.pairs[count[i]];
       }
+      indistPairs[0].printPairs(result.pairs);
 
-
-
-      return result;
     }
   }
 
   public static void main(String[] args) {
     AFD sta = new AFD();
     sta.fill();
-    sta.print();
-    AFD result = sta.minimize();
-    result.print();
+    sta.minimize();
   }
 }
