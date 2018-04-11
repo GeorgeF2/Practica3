@@ -171,6 +171,8 @@ public class Main {
         }
       } while (!done);
 
+      //TODO : add merging non dist pairs together and leave dist states alone.
+
       return result;
     }
   }
