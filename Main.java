@@ -17,16 +17,19 @@ public class Main {
       this.alfa = a;
       this.fi = f;
     }
+
     State nextState(char a) {
       return this.trans.get(a);
     }
+
     boolean isFinal() {
       return this.fi;
     }
+
     void print() {
       System.out.println("State " + id + ": ");
 
-      for (int i = 0; i<trans.size(); i++) {
+      for (int i = 0; i < trans.size(); i++) {
         System.out.println("With " + alfa[i] + " -> " + trans.get(alfa[i]).id);
       }
 
@@ -51,6 +54,7 @@ public class Main {
       else
         this.dist = false;
     }
+
     void print() {
       System.out.println("Pair " + id + ":");
       System.out.println("Includes states " + st1.id + " and " + st2.id);
@@ -111,6 +115,7 @@ public class Main {
         }
       }
     }
+
     void print() {
       System.out.println("Number of states: " + states.length);
       for (int i = 0; i < states.length; i++) {
