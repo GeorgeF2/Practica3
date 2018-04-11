@@ -15,15 +15,12 @@ public class Main {
         this.trans.put(a[i], t[i]);
       this.fi = f;
     }
-
     int nextState(char a) {
       return this.trans.get(a);
     }
-
     boolean isFinal() {
       return this.fi;
     }
-
     void print() {
       System.out.println("State " + id + ": ");
       System.out.println(trans);
@@ -48,8 +45,7 @@ public class Main {
       else
         this.dist = false;
     }
-
-    void print(){
+    void print() {
       System.out.println("Pair " + id + ":");
       System.out.println("Includes states " + st1.id + " and " + st2.id);
       if (dist)
@@ -98,23 +94,16 @@ public class Main {
         }
       }
     }
-
     void print() {
       System.out.println("Number of states: " + states.length);
-      for (int i = 0; i<states.length; i++) {
+      for (int i = 0; i < states.length; i++) {
         states[i].print();
       }
       System.out.println();
       System.out.println("Number of pairs: " + pairs.length);
-      for (int i = 0; i<pairs.length; i++) {
+      for (int i = 0; i < pairs.length; i++) {
         pairs[i].print();
       }
-    }
-
-    AFD minimizeAFD(){
-      AFD minimized = this;
-
-      return minimized;
     }
   }
 
