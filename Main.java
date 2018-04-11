@@ -63,6 +63,57 @@ public class Main {
       else
         System.out.println("This is not a distinguishable pair");
     }
+
+    boolean mark(Pair[] list) {
+      State temp1, temp2;
+      for (int i = 0; i < st1.alfa.length; i++) {
+        temp1 = st1.nextState(st1.alfa[i]);
+        temp2 = st2.nextState(st2.alfa[i]);
+        for (int j = 0; j < list.length; j++) {
+          if (((list[j].st1.id == temp1.id && list[j].st2.id == temp2.id)
+              || (list[j].st1.id == temp2.id && list[j].st2.id == temp1.id)) && !this.dist) {
+            if (list[j].dist) {
+              this.dist = true;
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    }
+
+    Pair nextPair(char a, Pair[] list) {
+      State temp1, temp2;
+      temp1 = st1.nextState(a);
+      temp2 = st2.nextState(a);
+      for (int j = 0; j < list.length; j++) {
+        if ((list[j].st1.id == temp1.id && list[j].st2.id == temp2.id)
+            || (list[j].st1.id == temp2.id && list[j].st2.id == temp1.id)) {
+          return list[j];
+        }
+      }
+      Pair temp = new Pair(temp1.id, temp1, temp2);
+      return temp;
+    }
+
+    void printPairs(Pair[] list) {
+      for (int i = 0; i < list.length; i++) {
+        if (!list[i].dist) {
+          System.out.println("State: {" + list[i].st1.id + ", " + list[i].st2.id + "}");
+          for (int j = 0; j < list[i].st1.alfa.length; j++) {
+            System.out
+                .println("With " + list[i].st1.alfa[j] + " -> {" + list[i].nextPair(list[i].st1.alfa[j], list).st1.id
+                    + ", " + list[i].nextPair(list[i].st2.alfa[j], list).st2.id + "}");
+          }
+          if (list[i].st1.isFinal()) {
+            System.out.println("This is a final state");
+          } else {
+            System.out.println("This is not a final state");
+          }
+          System.out.println();
+        }
+      }
+    }
   }
 
   public static class AFD {
@@ -79,10 +130,10 @@ public class Main {
       char[] finalstates = temp.toCharArray();
 
       State[] tr = new State[alfabet.length];
-      for (int j = 0; j < temp.length(); j++) {
+      for (int j = 0; j < alfabet.length; j++) {
         tr[j] = new State(j, alfabet, tr, false);
       }
-      for (int j = 0; j < temp.length(); j++) {
+      for (int j = 0; j < alfabet.length; j++) {
         tr[j] = new State(j, alfabet, tr, false);
       }
       for (int j = 0; j < numStates; j++) {
@@ -127,11 +178,41 @@ public class Main {
         pairs[i].print();
       }
     }
+
+    void minimize() {
+      AFD result = this;
+      boolean done = false;
+
+      do {
+        done = true;
+        for (int i = 1; i < pairs.length; i++) {
+          if (result.pairs[i].mark(result.pairs)) {
+            done = false;
+          }
+        }
+      } while (!done);
+
+      int[] count = new int[result.pairs.length];
+      Pair[] indistPairs;
+      int j = 0;
+      for (int i = 0; i < result.pairs.length; i++) {
+        if (!result.pairs[i].dist) {
+          count[j] = i;
+          j++;
+        }
+      }
+      indistPairs = new Pair[j];
+      for (int i = 0; i < j; i++) {
+        indistPairs[i] = result.pairs[count[i]];
+      }
+      indistPairs[0].printPairs(result.pairs);
+
+    }
   }
 
   public static void main(String[] args) {
     AFD sta = new AFD();
     sta.fill();
-    sta.print();
+    sta.minimize();
   }
 }
